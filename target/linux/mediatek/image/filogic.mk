@@ -206,6 +206,42 @@ define Device/mediatek_mt7986b-rfb
 endef
 TARGET_DEVICES += mediatek_mt7986b-rfb
 
+define Device/qihoo_360-t7-stock
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360 T7 (stock layout)
+  DEVICE_DTS := mt7981b-qihoo-360-t7-stock
+  DEVICE_DTS_DIR := ../dts
+  SUPPORTED_DEVICES := qihoo,360-t7-stock
+  DEVICE_PACKAGES := kmod-mt7981-firmware mt7981-wo-firmware
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 36864k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += qihoo_360-t7-stock
+
+define Device/qihoo_360-t7-ubootmod
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360 T7 (108M ubi layout)
+  DEVICE_DTS := mt7981b-qihoo-360-t7-ubootmod
+  DEVICE_DTS_DIR := ../dts
+  SUPPORTED_DEVICES := qihoo,360-t7-ubootmod
+  DEVICE_PACKAGES := kmod-mt7981-firmware mt7981-wo-firmware
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 110592k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += qihoo_360-t7-ubootmod
+
 define Device/tplink_tl-xdr-common
   DEVICE_VENDOR := TP-Link
   DEVICE_DTS_DIR := ../dts
