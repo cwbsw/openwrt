@@ -19,6 +19,11 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:lan" "4:lan" "6u@eth0"
 		;;
+	qihoo,360-t7*)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:lan" "3:wan" "6u@eth0" "5u@eth1"
+		;;
 	*2500wan-p5*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" wan
 		;;
@@ -38,14 +43,17 @@ mediatek_setup_macs()
 	local wan_mac_offset=""
 
 	case $board in
+	qihoo,360-t7*)
+		lan_mac=$(mtd_get_mac_ascii "stock-factory" lanMac)
+		wan_mac=$(macaddr_add $lan_mac 1)
+		;;
 	*)
 		lan_mac_offset="0x2A"
 		wan_mac_offset="0x24"
+		lan_mac=$(mtd_get_mac_binary $part_name $lan_mac_offset)
+		wan_mac=$(mtd_get_mac_binary $part_name $wan_mac_offset)
 		;;
 	esac
-
-	lan_mac=$(mtd_get_mac_binary $part_name $lan_mac_offset)
-	wan_mac=$(mtd_get_mac_binary $part_name $wan_mac_offset)
 
 	case "$lan_mac" in
 		00:00:00:00:00:00);;

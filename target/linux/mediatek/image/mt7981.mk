@@ -171,3 +171,41 @@ define Device/mt7981-fpga-sd
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += mt7981-fpga-sd
+
+define Device/qihoo_360-t7-stock
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360 T7 (stock layout)
+  DEVICE_DTS := mt7981b-qihoo-360-t7-stock
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  DEVICE_PACKAGES := uboot-envtools swconfig switch mtkhnat_util \
+		     kmod-mediatek_hnat kmod-crypto-eip197
+  SUPPORTED_DEVICES := qihoo,360-t7-stock
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 36864k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += qihoo_360-t7-stock
+
+define Device/qihoo_360-t7-ubootmod
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360 T7 (108M ubi layout)
+  DEVICE_DTS := mt7981b-qihoo-360-t7-ubootmod
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  DEVICE_PACKAGES := uboot-envtools swconfig switch mtkhnat_util \
+		     kmod-mediatek_hnat kmod-crypto-eip197
+  SUPPORTED_DEVICES := qihoo,360-t7-ubootmod
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 110592k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += qihoo_360-t7-ubootmod

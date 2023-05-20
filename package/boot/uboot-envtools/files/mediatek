@@ -96,6 +96,9 @@ mediatek,*-snand-rfb)
 		fi
 	fi
 	;;
+qihoo,360-t7*)
+	ubootenv_add_uci_config "/dev/mtd2" "0" "0x20000" "0x20000" "1"
+	;;
 esac
 
 config_load ubootenv
